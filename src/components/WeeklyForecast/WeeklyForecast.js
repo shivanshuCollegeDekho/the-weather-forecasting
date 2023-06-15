@@ -8,9 +8,9 @@ import UnfedForecastItem from "./UnfedForecastItem";
 import DayWeatherDetails from "./DayWeatherDetails";
 import Layout from "../Reusable/Layout";
 
-const WeeklyForecast = ({ data }) => {
+const WeeklyForecast = ({ data, tolggletoC }) => {
   const forecastDays = getWeekDays();
-
+console.log(tolggletoC,"----0099877");
   const noDataProvided =
     !data ||
     Object.keys(data).length === 0 ||
@@ -65,9 +65,12 @@ const WeeklyForecast = ({ data }) => {
                   justifyContent: "center",
                 }}
               >
+              
                 <WeeklyForecastItem
                   type="temperature"
-                  value={Math.round(item.temp) + " °C"}
+                  value={
+                    Math.round(item.temp) + `${tolggletoC ? " °F" : " °C"}`
+                  }
                   color="black"
                 />
                 <WeeklyForecastItem

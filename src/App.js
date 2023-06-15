@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, Container, Grid, Link, SvgIcon, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  FormControlLabel,
+  Grid,
+  Link,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
 import Search from "./components/Search/Search";
 import WeeklyForecast from "./components/WeeklyForecast/WeeklyForecast";
 import TodayWeather from "./components/TodayWeather/TodayWeather";
@@ -12,6 +20,8 @@ import Logo from "./assets/logo.png";
 import ErrorBox from "./components/Reusable/ErrorBox";
 import { ALL_DESCRIPTIONS } from "./utilities/DateConstants";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import Switch from "@mui/material/Switch";
+
 import {
   getTodayForecastWeather,
   getWeekForecastWeather,
@@ -23,8 +33,10 @@ function App() {
   const [weekForecast, setWeekForecast] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  const searchChangeHandler = async (enteredData) => {
+  const [tolggletoC, setToggleC] = useState(false);
+  const [searchCityVal, setSearchCityVal] = useState("");
+  const searchChangeHandler = async (enteredData, checkedVal) => {
+    if (!enteredData) return;
     const [latitude, longitude] = enteredData.value.split(" ");
 
     setIsLoading(true);
@@ -35,7 +47,7 @@ function App() {
 
     try {
       const [todayWeatherResponse, weekForecastResponse] =
-        await fetchWeatherData(latitude, longitude);
+        await fetchWeatherData(latitude, longitude, checkedVal);
       const all_today_forecasts_list = getTodayForecastWeather(
         weekForecastResponse,
         currentDate,
@@ -58,6 +70,12 @@ function App() {
     }
 
     setIsLoading(false);
+  };
+
+  const handleToggleSwtich = (e) => {
+    console.log(e.target.checked);
+    setToggleC(e.target.checked);
+    searchChangeHandler(searchCityVal, e.target.checked);
   };
 
   let appContent = (
@@ -101,11 +119,15 @@ function App() {
       <React.Fragment>
         <Grid item xs={12} md={todayWeather ? 6 : 12}>
           <Grid item xs={12}>
-            <TodayWeather data={todayWeather} forecastList={todayForecast} />
+            <TodayWeather
+              data={todayWeather}
+              forecastList={todayForecast}
+              tolggletoC={tolggletoC}
+            />
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          <WeeklyForecast data={weekForecast} />
+          <WeeklyForecast data={weekForecast} tolggletoC={tolggletoC} />
         </Grid>
       </React.Fragment>
     );
@@ -191,6 +213,20 @@ function App() {
             />
 
             <UTCDatetime />
+            {todayWeather && (
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={tolggletoC}
+                    onChange={handleToggleSwtich}
+                    name="gilad"
+                  />
+                }
+                label="°C To °F"
+                style={{ color: "#fff" }}
+              />
+            )}
+
             <Link
               href="https://github.com/shivanshuCollegeDekho/the-weather-forecasting"
               target="_blank"
@@ -206,7 +242,10 @@ function App() {
               />
             </Link>
           </Box>
-          <Search onSearchChange={searchChangeHandler} />
+          <Search
+            onSearchChange={searchChangeHandler}
+            setSearchCityVal={setSearchCityVal}
+          />
         </Grid>
         {appContent}
       </Grid>

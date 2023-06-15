@@ -12,16 +12,7 @@ import {
   Tooltip,
 } from "recharts";
 
-const DailyForecast = ({ data, forecastList }) => {
-  const chartData = [
-    { name: "Page A", uv: 400 },
-    { name: "Page b", uv: 600 },
-    { name: "Page c", uv: 100 },
-  ];
-  let abc = forecastList.map((item) => ({
-    name: item.time,
-    temperature: Number(item.temperature.replace(/°C/g, "")),
-  }));
+const DailyForecast = ({ data, forecastList, tolggletoC }) => {
   const noDataProvided =
     !data ||
     !forecastList ||
@@ -81,7 +72,11 @@ const DailyForecast = ({ data, forecastList }) => {
               marginBottom: { xs: "1rem", sm: "0" },
             }}
           >
-            <DailyForecastItem item={item} data={data} />
+            <DailyForecastItem
+              item={item}
+              data={data}
+              tolggletoC={tolggletoC}
+            />
           </Grid>
         ))}
       </Grid>
@@ -132,7 +127,10 @@ const DailyForecast = ({ data, forecastList }) => {
           <LineChart
             width={400}
             height={300}
-            data={abc}
+            data={forecastList.map((item) => ({
+              name: item.time,
+              temperature: Number(item.temperature.replace(/°C/g, "")),
+            }))}
             margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           >
             <Line type="monotone" dataKey="temperature" stroke="#8884d8" />

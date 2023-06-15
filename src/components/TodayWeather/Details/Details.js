@@ -10,7 +10,7 @@ import Layout from '../../Reusable/Layout';
 
 const dayMonth = getDayMonthFromDate();
 
-const Details = ({ data }) => {
+const Details = ({ data,tolggletoC }) => {
   const noDataProvided =
     !data || Object.keys(data).length === 0 || data.cod === '404';
 
@@ -38,6 +38,7 @@ const Details = ({ data }) => {
           <TemperatureWeatherDetail
             temperature={data.main.temp}
             description={data.weather[0].description}
+            tolggletoC={tolggletoC}
           />
         </Grid>
         <Grid
@@ -50,7 +51,7 @@ const Details = ({ data }) => {
             height: '80px',
           }}
         >
-          <WeatherIconDetail src={weatherIcon(`${data.weather[0].icon}.png`)} />
+          <WeatherIconDetail src={weatherIcon(`${data.weather[0].icon}.png`)} tolggletoC={tolggletoC}/>
         </Grid>
       </>
     );

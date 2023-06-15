@@ -66,7 +66,7 @@ const DailyForecastItem = (props) => {
           fontFamily: "Poppins",
         }}
       >
-        {props.item.temperature}
+        {props.item.temperature.replace(/°C/g, "")}{props.tolggletoC?'°F':"°C"}
       </Typography>
     </Box>
   );

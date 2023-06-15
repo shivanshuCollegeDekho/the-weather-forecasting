@@ -4,12 +4,16 @@ import AirConditions from "./AirConditions/AirConditions";
 import DailyForecast from "./Forecast/DailyForecast";
 import Details from "./Details/Details";
 
-const TodayWeather = ({ data, forecastList }) => {
+const TodayWeather = ({ data, forecastList, tolggletoC }) => {
   return (
     <Grid container sx={{ padding: "3rem 0rem 0rem" }}>
-      <Details data={data} />
+      <Details data={data} tolggletoC={tolggletoC} />
       <AirConditions data={data} />
-      <DailyForecast data={data} forecastList={forecastList} />
+      <DailyForecast
+        data={data}
+        forecastList={forecastList}
+        tolggletoC={tolggletoC}
+      />
     </Grid>
   );
 };

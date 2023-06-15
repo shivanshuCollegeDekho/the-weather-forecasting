@@ -11,14 +11,16 @@ const GEO_API_OPTIONS = {
   },
 };
 
-export async function fetchWeatherData(lat, lon) {
+export async function fetchWeatherData(lat, lon, tolggletoC) {
+  let units = tolggletoC ? "imperial" : "metric";
+  console.log(units, tolggletoC, "+++++");
   try {
     let [weatherPromise, forcastPromise] = await Promise.all([
       fetch(
-        `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
+        `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=${units}`
       ),
       fetch(
-        `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
+        `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=${units}`
       ),
     ]);
 

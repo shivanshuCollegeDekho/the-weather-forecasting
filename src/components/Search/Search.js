@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { AsyncPaginate } from 'react-select-async-paginate';
-import { fetchCities } from '../../api/OpenWeatherService';
+import React, { useState } from "react";
+import { AsyncPaginate } from "react-select-async-paginate";
+import { fetchCities } from "../../api/OpenWeatherService";
 
-const Search = ({ onSearchChange }) => {
+const Search = ({ onSearchChange, setSearchCityVal }) => {
   const [searchValue, setSearchValue] = useState(null);
 
   const loadOptions = async (inputValue) => {
@@ -19,6 +19,7 @@ const Search = ({ onSearchChange }) => {
   };
 
   const onChangeHandler = (enteredData) => {
+    setSearchCityVal(enteredData);
     setSearchValue(enteredData);
     onSearchChange(enteredData);
   };
